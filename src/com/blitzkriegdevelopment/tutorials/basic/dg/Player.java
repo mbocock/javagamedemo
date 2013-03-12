@@ -8,74 +8,51 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-public class Player implements ActionListener{
-	private int x;
-	private int y;
-	private int yground;
-	private int jumpspeed;
-	private int dx;
-	private int dy;
-	private Image gfx;
-	private String facing;
-	private Board _board;
-	private boolean inair;
-	
-	private ImageIcon playerimg;
-	private ImageIcon iright;
-	private ImageIcon ileft;
-	private int jumplimit;
-	
-	private int dcount = 0;
-	private int changeimgdelay = 50;
-	private int curimg = 0;
-	
-	private Timer walkcycletimer;
-	
-	private ArrayList<ImageIcon> iwalkl = new ArrayList();
-	private ArrayList<ImageIcon> iwalkr = new ArrayList();
-	
-	Player(Board brd) {
-		
-		walkcycletimer = new Timer(changeimgdelay,this);
-		
-		for(int i = 0; i < 9; i++){
-			iwalkr.add(new ImageIcon(getClass().getResource("/r"+i+".png")));
-		}
-		for(int i = 0; i < 9; i++){
-			iwalkl.add(new ImageIcon(getClass().getResource("/l"+i+".png")));
-		}
-		
-		inair=false;
-		_board = brd;
-		playerimg = new ImageIcon();
-		iright = new ImageIcon(getClass().getResource("/pstatic.png"));
-		ileft = new ImageIcon(getClass().getResource("/pstaticback.png"));
-		facing = "right";
-		gfx = iright.getImage();
-		x=10;
-		y=122;
-		jumplimit=y-70;
-		jumpspeed = 2;
-		yground=122;
-	}
-	
+public class Player extends AbstractEntity implements ActionListener,IPlayer{
+
+	@Override
 	public void move() {
 		x = x+dx;
 		y = y+dy;
 		
 		if(y == yground){
 			dy = 0;
-			inair = false;
 		}
-		if(y <= jumplimit){
+		if(y <= jumpmax){
 			dy=1;
 		}
 	}
-	
+
+	@Override
+	public int getHealth() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public int getMaxLife() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void setHealth(int h) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void setMaxLife(int ml) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_LEFT){
-			if(facing.equals("right")){
+			if(facing==1){
 				curimg=0;
 				facing="left";
 			}
@@ -111,52 +88,21 @@ public class Player implements ActionListener{
 			_board.addBullit(weap);
 		}
 	}
-	
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_LEFT){
-			dx = 0;
-			if(walkcycletimer.isRunning()){
-				curimg=0;
-				gfx = ileft.getImage();
-				walkcycletimer.stop();
-			} else {}
-		}
-		if(key == KeyEvent.VK_RIGHT){
-			dx = 0;
-			if(walkcycletimer.isRunning()){
-				curimg=0;
-				gfx = iright.getImage();
-				walkcycletimer.stop();
-			} else {}
-		}
-		if(key == KeyEvent.VK_SPACE){
-			if(inair){
-				//return to ground if not on ground
-				if(y!=122){
-					dy = 1;
-				} else {
-					dy = 0;
-				}
-			} else {
-				
-			}
-		}
-	}
-	
-	public int getX(){ return x; }
-	public int getY(){ return y; }
-	public Image getImage(){ return gfx; }
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(facing.equals("right")){
-			gfx = iwalkr.get(curimg).getImage();
-		} else if(facing.equals("left")){
-			gfx = iwalkl.get(curimg).getImage();
-		}
-		curimg++;
-		if(curimg == iwalkr.size())curimg=0;
+	public void keyReleased(KeyEvent e) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
+
+	@Override
+	public int getYground() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void setYground(int y) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+	
 	
 }
