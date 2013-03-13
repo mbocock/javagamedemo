@@ -131,7 +131,10 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	}
 	
 	public void setBgstatic(boolean b) {
-		_bgstatic = b;
+		if(_bgstatic!=b){
+			_bgstatic = b;
+			System.out.println("BGSTATIC = " + _bgstatic);
+		}
 	}
 	
 	public int getRightLimit() {
