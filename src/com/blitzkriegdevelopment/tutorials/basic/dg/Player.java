@@ -16,7 +16,6 @@ public class Player extends AbstractEntity implements IPlayer{
 	public void move() {
 		_x = _x+_dx;
 		_y = _y+_dy;
-		
 		if(_y == _yground){
 			_dy = 0;
 			_inair = false;
@@ -49,7 +48,12 @@ public class Player extends AbstractEntity implements IPlayer{
 			}
 			if(_walkcycletimer.isRunning()){
 			} else {_walkcycletimer.start();}
-			_dx = -1;
+			if(_x <= _board.getLeftLimit())_board.setBgstatic(false);
+			if(_board.getBgstatic()){
+				_dx = -_speed;
+			} else {
+				_dx = 0;
+			}
 		}
 		if(key == KeyEvent.VK_RIGHT){
 			if(_direction==0){
@@ -58,7 +62,12 @@ public class Player extends AbstractEntity implements IPlayer{
 			}
 			if(_walkcycletimer.isRunning()){
 			} else {_walkcycletimer.start();}
-			_dx = 1;
+			if(_x >= _board.getRightLimit())_board.setBgstatic(false);
+			if(_board.getBgstatic()){
+				_dx = _speed;
+			} else {
+				_dx = 0;
+			}
 		}
 		if(key == KeyEvent.VK_SPACE){
 			//limit _height of jump
@@ -90,6 +99,7 @@ public class Player extends AbstractEntity implements IPlayer{
 				_gfx = _staticimg.get(0).getImage();
 				_walkcycletimer.stop();
 			} else {}
+			_board.setBgstatic(true);
 		}
 		if(key == KeyEvent.VK_RIGHT){
 			_dx = 0;
@@ -98,6 +108,7 @@ public class Player extends AbstractEntity implements IPlayer{
 				_gfx = _staticimg.get(1).getImage();
 				_walkcycletimer.stop();
 			} else {}
+			_board.setBgstatic(true);
 		}
 		if(key == KeyEvent.VK_SPACE){
 			if(_inair){

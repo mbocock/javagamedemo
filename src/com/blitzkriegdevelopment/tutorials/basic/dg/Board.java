@@ -21,13 +21,19 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	private int enemyspawner = 100;
 	private int gamecounter = 0;
 	private ArrayList<Enemy> enemies = new ArrayList();
-	private int _playerStartX = 10;
+	private int _playerStartX = 125;
 	private int _playerStartY = 10;
+	private boolean _bgstatic = true;
+	private final int _leftlimit = 120;
+	private final int _rightlimit = 700;
+	private int _bgposx=0;
+	private int _bgposy=0;
 	
 	Board() {
 		
 		weaps = new ArrayList();
 		p = new PlayerBuilder(this)
+				.speed(2)
 				.buildPlayer();
 		
 		spawnEnemy();
@@ -35,7 +41,7 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		
-		ImageIcon i = new ImageIcon(getClass().getResource("/bgstatic.png"));
+		ImageIcon i = new ImageIcon(getClass().getResource("/bgcloned.png"));
 		bgimg = i.getImage();
 		
 		time = new Timer(5,this);
@@ -54,13 +60,20 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 			Enemy enemy = enemies.get(i);
 			enemy.move();
 		}
+		if(!_bgstatic){
+			if(p.getDirection()==1){
+				_bgposx-=p.getSpeed();
+			}else if(p.getDirection()==0){
+				_bgposx+=p.getSpeed();
+			}
+		} 
 		repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(bgimg,0,0,null);
+		g2d.drawImage(bgimg,_bgposx,_bgposy,null);
 		g2d.drawImage(p.getImage(),p.getX(),p.getY(),null);
 		
 		for (int i = 0; i < enemies.size(); i++){
@@ -111,6 +124,22 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	
 	public int getPlayerStartY(){
 		return _playerStartY;
+	}
+	
+	public boolean getBgstatic() {
+		return _bgstatic;
+	}
+	
+	public void setBgstatic(boolean b) {
+		_bgstatic = b;
+	}
+	
+	public int getRightLimit() {
+		return _rightlimit;
+	}
+	
+	public int getLeftLimit() {
+		return _leftlimit;
 	}
 	
 }
