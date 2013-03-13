@@ -12,22 +12,22 @@ public class BaseWeapon {
 	private int y;
 	private int offsetx = 25;
 	private int offsety = 10;
-	private String facing;
+	private int direction;
 	private Image basebullit;
 	private int speed=2;
 	private int width = 9;
 	private int height = 8;
 	
-	BaseWeapon(int nx, int ny, String face){
+	BaseWeapon(int nx, int ny, int dir){
 		ImageIcon i = new ImageIcon(getClass().getResource("/bullet.png"));
 		basebullit = i.getImage();
-		facing=face;
+		direction=dir;
 		startx=nx;
 		starty=ny;
 		
-		if(facing.equals("right")){
+		if(direction==1){
 			x = nx + (offsetx+10);
-		} else if(facing.equals("left")){
+		} else if(direction==0){
 			x = nx - (offsetx-15);
 		}
 		y = ny + offsety;
@@ -42,9 +42,9 @@ public class BaseWeapon {
 	}
 	
 	public int getX() {
-		if(facing.equals("right")){
+		if(direction==1){
 			x+=speed;
-		} else if(facing.equals("left")){
+		} else if(direction==0){
 			x-=speed;
 		}
 		return x;

@@ -1,108 +1,119 @@
 package com.blitzkriegdevelopment.tutorials.basic.dg;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
 
-public class Player extends AbstractEntity implements ActionListener,IPlayer{
+public class Player extends AbstractEntity implements IPlayer{
+	
+	public Player(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed) {
+		super(brd,yground,cyclestart,cycleend,staticl,staticr,preleft,preright,suffix,cyclespeed,dir,speed);
+		
+		_x=brd.getPlayerStartX();
+		_y=brd.getPlayerStartY();
+	}
 
 	@Override
 	public void move() {
-		x = x+dx;
-		y = y+dy;
+		_x = _x+_dx;
+		_y = _y+_dy;
 		
-		if(y == yground){
-			dy = 0;
+		if(_y == _yground){
+			_dy = 0;
+			_inair = false;
 		}
-		if(y <= jumpmax){
-			dy=1;
+		if(_y <= _yground-_jumplimit){
+			_dy=1;
 		}
 	}
 
-	@Override
-	public int getHealth() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public int getMaxLife() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public void setHealth(int h) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public void setMaxLife(int ml) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		if(_direction==1){
+			_gfx = _cycleimgRight.get(curimgindex).getImage();
+		} else if(_direction==0){
+			_gfx = _cycleimgLeft.get(curimgindex).getImage();
+		}
+		curimgindex++;
+		if(curimgindex == _cycleimgRight.size())curimgindex=0;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_LEFT){
-			if(facing==1){
-				curimg=0;
-				facing="left";
+			if(_direction==1){
+				curimgindex=0;
+				_direction=0;
 			}
-			if(walkcycletimer.isRunning()){
-			} else {walkcycletimer.start();}
-			dx = -1;
+			if(_walkcycletimer.isRunning()){
+			} else {_walkcycletimer.start();}
+			_dx = -1;
 		}
 		if(key == KeyEvent.VK_RIGHT){
-			if(facing.equals("left")){
-				curimg=0;
-				facing="right";
+			if(_direction==0){
+				curimgindex=0;
+				_direction=1;
 			}
-			if(walkcycletimer.isRunning()){
-			} else {walkcycletimer.start();}
-			dx = 1;
+			if(_walkcycletimer.isRunning()){
+			} else {_walkcycletimer.start();}
+			_dx = 1;
 		}
 		if(key == KeyEvent.VK_SPACE){
-			//limit height of jump
-			if(!inair){
-				dy = -jumpspeed;
-				inair=true;
+			//limit _height of jump
+			if(!_inair){
+				_dy = -_jumpspeed;
+				_inair=true;
 			} else {
-				if(y>=yground){
-					dy=jumpspeed;
+				if(_y>=_yground){
+					_dy=_jumpspeed;
 				} else {
-					dy=1;
+					_dy=1;
 				}
 			}
 		}
 		// f key was pressed
 		if(key == 70){
-			BaseWeapon weap = new BaseWeapon(x,y,facing);
+			BaseWeapon weap = new BaseWeapon(_x,_y,_direction);
 			_board.addBullit(weap);
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_LEFT){
+			_dx = 0;
+			if(_walkcycletimer.isRunning()){
+				curimgindex=0;
+				_gfx = _staticimg.get(0).getImage();
+				_walkcycletimer.stop();
+			} else {}
+		}
+		if(key == KeyEvent.VK_RIGHT){
+			_dx = 0;
+			if(_walkcycletimer.isRunning()){
+				curimgindex=0;
+				_gfx = _staticimg.get(1).getImage();
+				_walkcycletimer.stop();
+			} else {}
+		}
+		if(key == KeyEvent.VK_SPACE){
+			if(_inair){
+				//return to ground if not on ground
+				if(_y!=_yground){
+					_dy = 1;
+				} else {
+					_dy = 0;
+				}
+			} else {
+				
+			}
+		}
 	}
 
-	@Override
-	public int getYground() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public void setYground(int y) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+	
 	
 	
 }

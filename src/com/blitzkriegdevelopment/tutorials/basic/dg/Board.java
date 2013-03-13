@@ -21,10 +21,14 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	private int enemyspawner = 100;
 	private int gamecounter = 0;
 	private ArrayList<Enemy> enemies = new ArrayList();
+	private int _playerStartX = 10;
+	private int _playerStartY = 10;
 	
 	Board() {
+		
 		weaps = new ArrayList();
-		p = new Player(this);
+		p = new PlayerBuilder(this)
+				.buildPlayer();
 		
 		spawnEnemy();
 		addKeyListener(this);
@@ -99,6 +103,14 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	
 	public void addBullit(BaseWeapon b) {
 		weaps.add(b);
+	}
+	
+	public int getPlayerStartX(){
+		return _playerStartX;
+	}
+	
+	public int getPlayerStartY(){
+		return _playerStartY;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.blitzkriegdevelopment.tutorials.basic.dg;
 
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -13,6 +14,9 @@ public interface IEntity {
 	public int getSpeed();
 	public int getDirection();
 	public int getYground();
+	public int getHealth();
+	public int getMaxHealth();
+	public Image getImage();
 	
 	public Rectangle getBounds();
 	
@@ -23,6 +27,8 @@ public interface IEntity {
 	public void setSpeed(int s);
 	public void setDirection(int dir);
 	public void setYground(int y);
+	public void setHealth(int h);
+	public void setMaxHealth(int mh);
 	
 	public void setStaticImg(ArrayList al);
 	public void setCycleImg(ArrayList all,ArrayList alr);
