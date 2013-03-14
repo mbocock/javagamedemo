@@ -73,6 +73,11 @@ public class PlayerBuilder {
 		return this;
 	}
 	
+	public PlayerBuilder cycleend(int ce) {
+		_cycleend = ce;
+		return this;
+	}
+	
 	public PlayerBuilder speed(int s) {
 		_speed = s;
 		return this;
