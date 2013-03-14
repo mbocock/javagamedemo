@@ -177,4 +177,20 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 		_yground = y;
 	}
 	
+	public int getDx() {
+		return _dx;
+	}
+	
+	public int getDy() {
+		return _dy;
+	}
+	
+	public void setDx(int dx) {
+		_dx = dx;
+	}
+	
+	public void setDy(int dy) {
+		_dy = dy;
+	}
+	
 }

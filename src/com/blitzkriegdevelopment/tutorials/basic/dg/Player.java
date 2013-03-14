@@ -2,14 +2,27 @@ package com.blitzkriegdevelopment.tutorials.basic.dg;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Player extends AbstractEntity implements IPlayer{
+	
+	private ArrayList<IKeyEvent> keyevents = new ArrayList();
 	
 	public Player(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed) {
 		super(brd,yground,cyclestart,cycleend,staticl,staticr,preleft,preright,suffix,cyclespeed,dir,speed);
 		
 		_x=brd.getPlayerStartX();
 		_y=brd.getPlayerStartY();
+		
+		IKeyEvent kpright = new KeyPressRight(this);
+		addKeyEvent(kpright);
+	}
+	
+	public void addKeyEvent(IKeyEvent ike){
+		keyevents.add(ike);
+	}
+	public void removeKeyEvent(IKeyEvent ike) {
+		keyevents.remove(ike);
 	}
 
 	@Override
@@ -50,6 +63,11 @@ public class Player extends AbstractEntity implements IPlayer{
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
+		for (int i= 0; i < keyevents.size(); i++){
+			IKeyEvent ike = keyevents.get(i);
+			ike.pressAction(e);
+		}
+		
 		if(key == KeyEvent.VK_LEFT){
 			if(_direction==1){
 				curimgindex=0;
@@ -64,20 +82,7 @@ public class Player extends AbstractEntity implements IPlayer{
 				_dx = 0;
 			}
 		}
-		if(key == KeyEvent.VK_RIGHT){
-			if(_direction==0){
-				curimgindex=0;
-				_direction=1;
-			}
-			if(_walkcycletimer.isRunning()){
-			} else {_walkcycletimer.start();}
-			if(_x >= _board.getRightLimit() && _board.getBgstatic())_board.setBgstatic(false);
-			if(_board.getBgstatic()){
-				_dx = _speed;
-			} else {
-				_dx = 0;
-			}
-		}
+		
 		if(key == KeyEvent.VK_SPACE){
 			//limit _height of jump
 			
@@ -143,6 +148,22 @@ public class Player extends AbstractEntity implements IPlayer{
 
 	public boolean isWalking() {
 		return _walkcycletimer.isRunning();
+	}
+	
+	public int getCurimgindex() {
+		return curimgindex;
+	}
+	
+	public void setCurimgindex(int cii) {
+		curimgindex = cii;
+	}
+	
+	public void startWalking() {
+		_walkcycletimer.start();
+	}
+	
+	public Board getBoard() {
+		return _board;
 	}
 	
 	

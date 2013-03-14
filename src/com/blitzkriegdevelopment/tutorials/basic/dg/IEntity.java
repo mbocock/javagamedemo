@@ -17,6 +17,8 @@ public interface IEntity {
 	public int getHealth();
 	public int getMaxHealth();
 	public Image getImage();
+	public int getDx();
+	public int getDy();
 	
 	public Rectangle getBounds();
 	
@@ -29,6 +31,8 @@ public interface IEntity {
 	public void setYground(int y);
 	public void setHealth(int h);
 	public void setMaxHealth(int mh);
+	public void setDx(int dx);
+	public void setDy(int dy);
 	
 	public void setStaticImg(ArrayList al);
 	public void setCycleImg(ArrayList all,ArrayList alr);
