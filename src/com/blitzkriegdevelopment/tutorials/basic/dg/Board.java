@@ -33,7 +33,7 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 		
 		weaps = new ArrayList();
 		p = new PlayerBuilder(this)
-				.speed(2)
+				.speed(1)
 				.buildPlayer();
 		
 		spawnEnemy();
@@ -85,7 +85,10 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 			BaseWeapon weap = ((BaseWeapon)weaps.get(i));
 			g2d.drawImage(weap.getImage(),weap.getX(),weap.getY(),null);
 			
-			if(weap.getX() >= 700){
+			if(weap.getX() >= p.getX()+weap.getDistance()){
+				weaps.remove(weap);
+			}
+                        if(weap.getX() <= p.getX()-weap.getDistance()){
 				weaps.remove(weap);
 			}
 			

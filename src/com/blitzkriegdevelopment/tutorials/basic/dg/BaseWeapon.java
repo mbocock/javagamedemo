@@ -12,6 +12,7 @@ public class BaseWeapon {
 	private int y;
 	private int offsetx = 25;
 	private int offsety = 10;
+        private int distance= 250;
 	private int direction;
 	private Image basebullit;
 	private int speed=2;
@@ -57,5 +58,9 @@ public class BaseWeapon {
 	public Image getImage() {
 		return basebullit;
 	}
+        
+        public int getDistance(){
+            return distance;
+        }
 	
 }
