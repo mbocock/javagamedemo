@@ -30,7 +30,6 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	private int _bgposy=0;
 	
 	Board() {
-		
 		weaps = new ArrayList();
 		p = new PlayerBuilder(this)
 				.speed(1)

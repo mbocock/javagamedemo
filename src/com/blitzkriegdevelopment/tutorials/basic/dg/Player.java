@@ -14,8 +14,14 @@ public class Player extends AbstractEntity implements IPlayer{
 		_x=brd.getPlayerStartX();
 		_y=brd.getPlayerStartY();
 		
-		IKeyEvent kpright = new KeyPressRight(this);
-		addKeyEvent(kpright);
+		AbstractKeyEvent kright = new KeyRight(this);
+		AbstractKeyEvent kleft = new KeyLeft(this);
+		AbstractKeyEvent kspace = new KeySpace(this);
+		AbstractKeyEvent kf = new KeyF(this);
+		addKeyEvent(kright);
+		addKeyEvent(kleft);
+		addKeyEvent(kspace);
+		addKeyEvent(kf);
 	}
 	
 	public void addKeyEvent(IKeyEvent ike){
@@ -63,108 +69,33 @@ public class Player extends AbstractEntity implements IPlayer{
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
-		for (int i= 0; i < keyevents.size(); i++){
+		for (int i=0; i < keyevents.size(); i++){
 			IKeyEvent ike = keyevents.get(i);
-			ike.pressAction(e);
+			ike.pressAction(key);
 		}
 		
-		if(key == KeyEvent.VK_LEFT){
-			if(_direction==1){
-				curimgindex=0;
-				_direction=0;
-			}
-			if(_walkcycletimer.isRunning()){
-			} else {_walkcycletimer.start();}
-			if(_x <= _board.getLeftLimit())_board.setBgstatic(false);
-			if(_board.getBgstatic()){
-				_dx = -_speed;
-			} else {
-				_dx = 0;
-			}
-		}
-		
-		if(key == KeyEvent.VK_SPACE){
-			//limit _height of jump
-			
-			if(!_inair){
-				_dy = -_jumpspeed;
-				_inair=true;
-			} else {
-				if(_y>=_yground){
-					_dy=_jumpspeed;
-				} else {
-					_dy=1;
-				}
-			}
-		}
-		// f key was pressed
-		if(key == 70){
-			BaseWeapon weap = new BaseWeapon(_x,_y,_direction);
-			_board.addBullit(weap);
-		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
+		
+		for (int i=0; i < keyevents.size(); i++){
+			IKeyEvent ike = keyevents.get(i);
+			ike.releaseAction(key);
+		}
 		_board.setBgstatic(true);
-		if(key == KeyEvent.VK_LEFT){
-			_dx = 0;
-			if(_walkcycletimer.isRunning()){
-				curimgindex=0;
-				_gfx = _staticimg.get(0).getImage();
-				_walkcycletimer.stop();
-			} else {}
-			if(_x <= _board.getLeftLimit() && _board.getBgstatic()){
-				_x = _board.getLeftLimit()+1;
-			}
-		}
-		if(key == KeyEvent.VK_RIGHT){
-			System.out.println("RELEASED RIGHT");
-			_dx = 0;
-			if(_walkcycletimer.isRunning()){
-				curimgindex=0;
-				_gfx = _staticimg.get(1).getImage();
-				_walkcycletimer.stop();
-			} else {}
-			if(_x >= _board.getRightLimit() && _board.getBgstatic()){
-				_x = _board.getRightLimit()-1;
-			}
-			//_board.setBgstatic(true);
-		}
-		if(key == KeyEvent.VK_SPACE){
-			if(_inair){
-				//return to ground if not on ground
-				if(_y!=_yground){
-					_dy = 1;
-				} else {
-					_dy = 0;
-				}
-			} else {
-				
-			}
-		}
 	}
 
-	public boolean isWalking() {
-		return _walkcycletimer.isRunning();
-	}
 	
-	public int getCurimgindex() {
-		return curimgindex;
-	}
 	
-	public void setCurimgindex(int cii) {
-		curimgindex = cii;
-	}
 	
-	public void startWalking() {
-		_walkcycletimer.start();
-	}
 	
-	public Board getBoard() {
-		return _board;
-	}
+	
+	
+	
+	
+	
 	
 	
 }

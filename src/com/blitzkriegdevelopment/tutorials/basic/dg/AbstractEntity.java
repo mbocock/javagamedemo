@@ -93,12 +93,12 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 
 	@Override
 	public void setX(int x) {
-		x = x;
+		_x = x;
 	}
 
 	@Override
 	public void setY(int y) {
-		y = y;
+		_y = y;
 	}
 
 	@Override
@@ -193,4 +193,47 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 		_dy = dy;
 	}
 	
+	public boolean inAir() {
+		return _inair;
+	}
+	public void setInAir(boolean b) {
+		_inair = b;
+	}
+	
+	public int getJumpspeed() {
+		return _jumpspeed;
+	}
+	public void setJumpspeed(int j) {
+		_jumpspeed = j;
+	}
+	public void setGFX(Image i) {
+		_gfx = i;
+	}
+	public Image getGFX() {
+		return _gfx;
+	}
+	public void setStaticimg(ArrayList<ImageIcon> si) {
+		_staticimg = si;
+	}
+	public ArrayList<ImageIcon> getStaticimg(){
+		return _staticimg;
+	}
+	public void startWalking() {
+		_walkcycletimer.start();
+	}
+	public void stopWalking() {
+		_walkcycletimer.stop();
+	}
+	public boolean isWalking() {
+		return _walkcycletimer.isRunning();
+	}
+	public int getCurimgindex() {
+		return curimgindex;
+	}
+	public void setCurimgindex(int cii) {
+		curimgindex = cii;
+	}
+	public Board getBoard() {
+		return _board;
+	}
 }
