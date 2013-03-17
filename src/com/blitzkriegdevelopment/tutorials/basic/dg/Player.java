@@ -8,8 +8,8 @@ public class Player extends AbstractEntity implements IPlayer{
 	
 	private ArrayList<IKeyEvent> keyevents = new ArrayList();
 	
-	public Player(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed) {
-		super(brd,yground,cyclestart,cycleend,staticl,staticr,preleft,preright,suffix,cyclespeed,dir,speed);
+	public Player(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed, int jumpcycle,String jumpright, String jumpleft) {
+		super(brd,yground,cyclestart,cycleend,staticl,staticr,preleft,preright,suffix,cyclespeed,dir,speed,jumpcycle,jumpright,jumpleft);
 		
 		_x=brd.getPlayerStartX();
 		_y=brd.getPlayerStartY();
@@ -50,19 +50,29 @@ public class Player extends AbstractEntity implements IPlayer{
 		if(_y <= _yground-_jumplimit){
 			_dy=1;
 		}
-	}
-
-	
+	}	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(_direction==1){
+            
+            if(_inair){
+                if(_direction==1){
+			_gfx = _jumpcycleimgRight.get(curimgindexjump).getImage();
+		} else if(_direction==0){
+			_gfx = _jumpcycleimgLeft.get(curimgindexjump).getImage();
+		}
+		curimgindex++;
+		if(curimgindexjump == _jumpcycleimgRight.size())curimgindexjump=0;
+            }
+            else{
+                if(_direction==1){
 			_gfx = _cycleimgRight.get(curimgindex).getImage();
 		} else if(_direction==0){
 			_gfx = _cycleimgLeft.get(curimgindex).getImage();
 		}
 		curimgindex++;
 		if(curimgindex == _cycleimgRight.size())curimgindex=0;
+            }
 	}
 
 	@Override
@@ -86,16 +96,5 @@ public class Player extends AbstractEntity implements IPlayer{
 		}
 		_board.setBgstatic(true);
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

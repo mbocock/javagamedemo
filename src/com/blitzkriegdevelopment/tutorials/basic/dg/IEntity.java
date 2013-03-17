@@ -46,9 +46,12 @@ public interface IEntity {
 	public void setStaticimg(ArrayList<ImageIcon> si);
 	public void startWalking();
 	public void stopWalking();
+        public void startJumping();
+	public void stopJumping();
 	public void setCurimgindex(int cii);
 	
 	public void setStaticImg(ArrayList al);
 	public void setCycleImg(ArrayList all,ArrayList alr);
 	public ArrayList getCycleImg(int i);
+        public ArrayList getJumpCycleImg(int i);
 }

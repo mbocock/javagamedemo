@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	Board() {
 		weaps = new ArrayList();
 		p = new PlayerBuilder(this)
-				.speed(1)
+				.speed(2)
 				.buildPlayer();
 		
 		spawnEnemy();

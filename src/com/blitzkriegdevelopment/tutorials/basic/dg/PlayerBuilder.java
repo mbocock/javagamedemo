@@ -9,6 +9,9 @@ public class PlayerBuilder {
 	private int _cyclespeed = 60;
 	private String _preleft = "l";
 	private String _preright = "r";
+        private int _jumpcycleend = 5;
+        private String _jumpright = "s";
+        private String _jumpleft = "s";
 	private String _cyclesuffix = ".png";
 	private int _dir = 1;
 	private String _staticleft = "pstaticback.png";
@@ -20,7 +23,7 @@ public class PlayerBuilder {
 	}
 	
 	public Player buildPlayer(){
-		return new Player(_board, _yground, _cyclestart, _cycleend, _staticleft, _staticright, _preleft, _preright, _cyclesuffix, _cyclespeed, _dir, _speed);
+		return new Player(_board, _yground, _cyclestart, _cycleend, _staticleft, _staticright, _preleft, _preright, _cyclesuffix, _cyclespeed, _dir, _speed, _jumpcycleend, _jumpright, _jumpleft);
 	}
 	
 	public PlayerBuilder board(Board brd) {

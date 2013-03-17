@@ -14,7 +14,7 @@ public class KeyRight extends AbstractKeyEvent{
 				p.setCurimgindex(0);
 				p.setDirection(1);
 			}
-			if(p.isWalking()){
+			if(p.isWalking() && !p._inair ){
 			} else {p.startWalking();}
 			Board b = p.getBoard();
 			if(b.getBgstatic()){

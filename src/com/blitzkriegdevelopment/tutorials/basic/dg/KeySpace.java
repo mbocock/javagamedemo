@@ -13,6 +13,7 @@ public class KeySpace extends AbstractKeyEvent{
 		if(key == KeyEvent.VK_SPACE){
 			//limit _height of jump
 			if(!p.inAir()){
+                            System.out.println("Jump");
 				p.setDy(-p.getJumpspeed());
 				p.setInAir(true);
 			} else {
@@ -22,6 +23,19 @@ public class KeySpace extends AbstractKeyEvent{
 					p.setDy(1);
 				}
 			}
+                        
+                        if(p.isJumping()){
+			} 
+                        else {
+                            p.startJumping();
+                        }
+//			Board b = p.getBoard();
+			
+//                        if(b.getBgstatic()){
+//				p.setDx(p.getSpeed());
+//			} else {
+//				p.setDx(0);
+//			}
 		}
 	}
 

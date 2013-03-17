@@ -23,26 +23,33 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 	protected int _yground;
 	protected int _jumplimit = 70;
 	protected int curimgindex;
+        protected int curimgindexjump;
 	protected int _cyclespeed;
 	protected boolean _inair;
 	protected Timer _walkcycletimer;
+        protected Timer _jumpcycletimer;
 	protected ArrayList<ImageIcon> _staticimg;
 	protected ArrayList<ImageIcon> _cycleimgLeft;
 	protected ArrayList<ImageIcon> _cycleimgRight;
+        protected ArrayList<ImageIcon> _jumpcycleimgLeft;
+	protected ArrayList<ImageIcon> _jumpcycleimgRight;
 	private int curhealth;
 	private int maxhealth;
 	
-	public AbstractEntity(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed){
+	public AbstractEntity(Board brd, int yground, int cyclestart, int cycleend, String staticl, String staticr, String preleft, String preright, String suffix, int cyclespeed, int dir, int speed, int jumpcycle, String jumppreright, String jumppreleft){
 		_cyclespeed = cyclespeed;
 		_walkcycletimer = new Timer(_cyclespeed,this);
 		_staticimg = new ArrayList<ImageIcon>();
 		_cycleimgLeft = new ArrayList<ImageIcon>();
 		_cycleimgRight = new ArrayList<ImageIcon>();
+                _jumpcycleimgLeft = new ArrayList<ImageIcon>();
+		_jumpcycleimgRight = new ArrayList<ImageIcon>();
 		_staticimg.add(new ImageIcon(getClass().getResource("/"+staticl)));
 		_staticimg.add(new ImageIcon(getClass().getResource("/"+staticr)));
 		_gfx = _staticimg.get(1).getImage();
 		_speed = speed;
 		fillCycleImages(cyclestart, cycleend, preleft, preright, suffix);
+                fillJumpCycleImages(0, jumpcycle, jumppreleft, jumppreright, suffix);
 		setYground(yground);
 		setDirection(dir);
 		_inair=false;
@@ -53,6 +60,14 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 		for(int i = start; i < end; i++){
 			_cycleimgLeft.add(new ImageIcon(getClass().getResource("/"+preleft+i+suffix)));
 			_cycleimgRight.add(new ImageIcon(getClass().getResource("/"+preright+i+suffix)));
+		}
+	}
+        
+    
+    protected void fillJumpCycleImages(int start,int end, String jumppreleft, String jumppreright, String suffix){
+		for(int i = 0; i < end; i++){
+			_jumpcycleimgLeft.add(new ImageIcon(getClass().getResource("/"+jumppreleft+i+suffix)));
+			_jumpcycleimgRight.add(new ImageIcon(getClass().getResource("/"+jumppreright+i+suffix)));
 		}
 	}
 	
@@ -166,6 +181,16 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 		}
 		return null;
 	}
+        
+        @Override
+	public ArrayList getJumpCycleImg(int i){
+		if(i == 0){
+			return _jumpcycleimgLeft;
+		} else if(i == 1){
+			return _jumpcycleimgRight;
+		}
+		return null;
+	}
 	
 	@Override
 	public int getYground() {
@@ -227,6 +252,15 @@ public abstract class AbstractEntity implements ActionListener,IEntity{
 	public boolean isWalking() {
 		return _walkcycletimer.isRunning();
 	}
+        public void startJumping() {
+		_jumpcycletimer.start();
+	}
+	public void stopJumping() {
+		_jumpcycletimer.stop();
+	}
+	public boolean isJumping() {
+		return _jumpcycletimer.isRunning();
+        }
 	public int getCurimgindex() {
 		return curimgindex;
 	}
